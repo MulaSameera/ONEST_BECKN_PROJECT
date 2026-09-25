@@ -166,45 +166,32 @@ export const PublicVerifyPage = () => {
                 </div>
 
                 <div className="metric-box">
-                  <div className="metric-label">Credential Type</div>
-                  <div className="metric-value" style={{ fontSize: '0.95rem' }}>{result.credentialType}</div>
-                </div>
-
-                <div className="metric-box">
                   <div className="metric-label">Issue Date</div>
                   <div className="metric-value" style={{ fontSize: '0.95rem' }}>{result.issueDate}</div>
                 </div>
               </div>
 
-              {/* Cryptographic SHA-256 Integrity Verification Box */}
-              <div style={{ background: 'rgba(8, 18, 32, 0.75)', border: '1px solid var(--border)', borderRadius: '0.65rem', padding: '1.35rem' }}>
-                <div style={{ fontSize: '0.8125rem', fontWeight: 700, color: 'var(--cyan)', marginBottom: '0.85rem', display: 'flex', alignItems: 'center', gap: '0.4rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                  <Hash size={14} /> Server-Side SHA-256 Deterministic Recomputation Check
-                </div>
-
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem', fontSize: '0.78rem' }}>
-                  <div>
-                    <span style={{ color: 'var(--text-secondary)' }}>Stored Registry Hash:</span>
-                    <div style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-primary)', wordBreak: 'break-all', background: 'rgba(15, 23, 42, 0.9)', padding: '0.5rem 0.75rem', borderRadius: '0.35rem', border: '1px solid var(--border)', marginTop: '0.2rem' }}>
-                      {result.storedHash}
+              {/* Cryptographic Integrity Verification Status */}
+              <div style={{ marginTop: '1.25rem' }}>
+                {result.valid ? (
+                  <div style={{ background: 'rgba(176, 0, 90, 0.15)', border: '1px solid var(--border-active)', borderRadius: '0.65rem', padding: '1.25rem', textAlign: 'center' }}>
+                    <div style={{ color: '#FFFFFF', fontWeight: 700, fontSize: '1.05rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}>
+                      <CheckCircle2 size={20} color="#22C55E" /> Cryptographic Hash Matched (Authenticity Certified)
+                    </div>
+                    <div style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', marginTop: '0.35rem' }}>
+                      Deterministic signature verified against authoritative registry. Zero record tampering detected.
                     </div>
                   </div>
-
-                  <div>
-                    <span style={{ color: 'var(--text-secondary)' }}>Recomputed Canonical Hash:</span>
-                    <div style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-primary)', wordBreak: 'break-all', background: 'rgba(15, 23, 42, 0.9)', padding: '0.5rem 0.75rem', borderRadius: '0.35rem', border: '1px solid var(--border)', marginTop: '0.2rem' }}>
-                      {result.computedHash}
+                ) : (
+                  <div style={{ background: 'rgba(212, 20, 61, 0.15)', border: '1px solid #FF3155', borderRadius: '0.65rem', padding: '1.25rem', textAlign: 'center' }}>
+                    <div style={{ color: '#FF3155', fontWeight: 700, fontSize: '1.05rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}>
+                      <XCircle size={20} color="#FF3155" /> Tamper Detected (Cryptographic Hash Mismatch)
+                    </div>
+                    <div style={{ fontSize: '0.82rem', color: '#FCA5A5', marginTop: '0.35rem' }}>
+                      Integrity check failed. Record fields do not match the authoritative registry signature.
                     </div>
                   </div>
-
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', marginTop: '0.4rem', color: result.storedHash === result.computedHash ? '#4ade80' : '#f87171', fontWeight: 700 }}>
-                    {result.storedHash === result.computedHash ? (
-                      <>✓ Cryptographic Hashes Match (Data Integrity 100% Intact)</>
-                    ) : (
-                      <>✗ Cryptographic Hashes Mismatch (Tamper Detected)</>
-                    )}
-                  </div>
-                </div>
+                )}
               </div>
             </div>
           )}

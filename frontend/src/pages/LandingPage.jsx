@@ -17,7 +17,7 @@ export const LandingPage = () => {
           National Digital Credential <span>Issuance & Verification</span>
         </h1>
         <p className="hero-description">
-          A secure, explainable, and production-grade platform built on Spring Boot, PostgreSQL, and SHA-256 integrity checks for verified academic & vocational credentials.
+          A secure, explainable, and production-grade national infrastructure with cryptographic integrity verification for academic &amp; vocational credentials.
         </p>
       </section>
 

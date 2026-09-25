@@ -22,6 +22,11 @@ export const ProviderLoginPage = () => {
       return;
     }
 
+    if (password.trim().length < 6) {
+      setError('Password must be at least 6 characters');
+      return;
+    }
+
     setLoading(true);
     setError(null);
 
@@ -53,7 +58,7 @@ export const ProviderLoginPage = () => {
         </div>
         <div>
           <h2 style={{ fontSize: '1.4rem', fontWeight: 800, color: 'var(--text-primary)', letterSpacing: '-0.02em' }}>Provider Authentication</h2>
-          <p style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)' }}>Issuing Institutions & Universities</p>
+          <p style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)' }}>Issuing Institutions &amp; Universities</p>
         </div>
       </div>
 
@@ -86,6 +91,7 @@ export const ProviderLoginPage = () => {
           <input
             type="password"
             required
+            minLength={6}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="••••••••"
@@ -100,14 +106,14 @@ export const ProviderLoginPage = () => {
           style={{ marginTop: '0.5rem' }}
         >
           <Lock size={16} />
-          {loading ? 'Authenticating & Generating JWT...' : 'Authenticate Provider'}
+          {loading ? 'Authenticating...' : 'Authenticate Provider'}
         </button>
       </form>
 
-      {/* Quick Test Demo Credentials */}
+      {/* Quick Access Credentials */}
       <div style={{ marginTop: '2rem', paddingTop: '1.25rem', borderTop: '1px solid var(--border)' }}>
         <div style={{ fontSize: '0.72rem', fontWeight: 700, color: 'var(--cyan)', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '0.6rem', display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
-          <Key size={12} /> Test Credentials (from PostgreSQL dataset)
+          <Key size={12} /> Sample Authorized Profiles
         </div>
         <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
           <button

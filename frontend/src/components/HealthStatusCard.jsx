@@ -51,10 +51,10 @@ export const HealthStatusCard = () => {
           </div>
           <div>
             <h3 style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--text-primary)', margin: 0 }}>
-              System Connectivity & Database Diagnostics
+              System Connectivity &amp; Central Registry Diagnostics
             </h3>
             <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>
-              Real-time monitoring of Spring Boot REST microservices and PostgreSQL source of truth
+              Real-time operational monitoring of core platform services and central credential registry
             </div>
           </div>
         </div>
@@ -74,10 +74,10 @@ export const HealthStatusCard = () => {
 
       <div style={{ display: 'flex', gap: '1.25rem', flexWrap: 'wrap', marginBottom: '1.5rem' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
-          <span style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--text-secondary)' }}>Spring Boot API:</span>
+          <span style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--text-secondary)' }}>Platform Services:</span>
           {isBackendUp ? (
             <span className="badge badge-success">
-              <CheckCircle2 size={12} /> UP (Port 8080)
+              <CheckCircle2 size={12} /> OPERATIONAL (ONLINE)
             </span>
           ) : (
             <span className="badge badge-danger">
@@ -87,10 +87,10 @@ export const HealthStatusCard = () => {
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
-          <span style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--text-secondary)' }}>PostgreSQL Database:</span>
+          <span style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--text-secondary)' }}>Central Registry:</span>
           {isDbUp ? (
             <span className="badge badge-success">
-              <CheckCircle2 size={12} /> {dbHealth.databaseName || 'onest_credentials_db'} (ONLINE)
+              <CheckCircle2 size={12} /> SECURE VAULT (SYNCHRONIZED)
             </span>
           ) : (
             <span className="badge badge-danger">
@@ -103,7 +103,7 @@ export const HealthStatusCard = () => {
       {isDbUp && dbHealth?.tableCounts && (
         <div>
           <div style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--cyan)', marginBottom: '0.85rem', textTransform: 'uppercase', letterSpacing: '0.08em', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-            <Activity size={12} /> Live Database Record Counts (Source of Truth)
+            <Activity size={12} /> Live Verified Registry Records
           </div>
           <div className="health-metrics-grid">
             <div className="metric-box">
