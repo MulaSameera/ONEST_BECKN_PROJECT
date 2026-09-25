@@ -58,10 +58,8 @@ public class AuthService {
 
         Institution institution = institutionOpt.get();
 
-        // Verify password security authentication
-        if (request.getPassword() == null || request.getPassword().isBlank() || request.getPassword().length() < 6) {
-            throw new BadCredentialsException("Invalid password. Password must be at least 6 characters.");
-        }
+        // Verify password security authentication (Min 8 chars, 1+ special char)
+        validatePasswordSecurity(request.getPassword());
 
         // Create Principal and issue JWT
         UserPrincipal principal = new UserPrincipal(
@@ -103,9 +101,8 @@ public class AuthService {
 
         Student student = studentOpt.get();
 
-        if (request.getPassword() == null || request.getPassword().isBlank() || request.getPassword().length() < 6) {
-            throw new BadCredentialsException("Invalid password. Password must be at least 6 characters.");
-        }
+        // Verify password security authentication (Min 8 chars, 1+ special char)
+        validatePasswordSecurity(request.getPassword());
 
         UserPrincipal principal = new UserPrincipal(
                 student.getSeekerId(),
@@ -139,5 +136,20 @@ public class AuthService {
                 principal.getInstitutionId(),
                 principal.getStudentId()
         );
+    }
+
+    /**
+     * Enforces password security authenticity policy:
+     * - Minimum length = 8 characters
+     * - At least one special character is mandatory
+     */
+    private void validatePasswordSecurity(String password) {
+        if (password == null || password.isBlank() || password.length() < 8) {
+            throw new BadCredentialsException("Invalid password. Password must be at least 8 characters in length.");
+        }
+        boolean hasSpecial = password.chars().anyMatch(ch -> !Character.isLetterOrDigit(ch));
+        if (!hasSpecial) {
+            throw new BadCredentialsException("Invalid password. Password must contain at least one special character (!@#$%^&*...).");
+        }
     }
 }

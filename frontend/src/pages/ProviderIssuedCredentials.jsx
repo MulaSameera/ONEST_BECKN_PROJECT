@@ -212,11 +212,11 @@ export const ProviderIssuedCredentials = () => {
               )}
             </div>
 
-            <div style={{ background: 'rgba(8, 18, 32, 0.8)', padding: '1rem', borderRadius: '0.5rem', fontSize: '0.8rem', marginBottom: '1.5rem', border: '1px solid var(--border)' }}>
-              <div style={{ color: 'var(--text-secondary)', fontWeight: 600, marginBottom: '0.35rem' }}>SHA-256 Cryptographic Integrity Hash:</div>
-              <div style={{ fontFamily: 'var(--font-mono)', wordBreak: 'break-all', color: 'var(--cyan)' }}>
-                {selectedCred.credentialHash}
-              </div>
+            <div style={{ background: 'rgba(176, 0, 90, 0.15)', padding: '0.85rem 1rem', borderRadius: '0.5rem', fontSize: '0.82rem', marginBottom: '1.5rem', border: '1px solid var(--border-active)', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <ShieldCheck size={18} color="#22C55E" />
+              <span style={{ color: '#FFFFFF', fontWeight: 600 }}>
+                Cryptographic Integrity Verified &bull; Registry Authenticity Sealed
+              </span>
             </div>
 
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>

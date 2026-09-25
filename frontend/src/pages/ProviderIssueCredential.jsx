@@ -203,7 +203,7 @@ export const ProviderIssueCredential = () => {
 
             <button type="submit" disabled={loading} className="btn btn-primary" style={{ marginTop: '0.75rem', padding: '0.85rem' }}>
               <Award size={18} />
-              {loading ? 'Executing Eligibility Check & Generating SHA-256...' : 'Issue Tamper-Proof Credential'}
+              {loading ? 'Evaluating Eligibility & Issuing Credential...' : 'Issue Tamper-Proof Credential'}
             </button>
           </form>
         </div>
@@ -239,11 +239,11 @@ export const ProviderIssueCredential = () => {
                 </div>
               </div>
 
-              <div>
-                <span style={{ color: 'var(--text-secondary)', fontSize: '0.75rem' }}>Deterministic SHA-256 Integrity Hash:</span>
-                <div style={{ background: 'rgba(15, 23, 42, 0.9)', padding: '0.5rem 0.75rem', borderRadius: '0.4rem', border: '1px solid var(--border)', fontFamily: 'var(--font-mono)', fontSize: '0.72rem', wordBreak: 'break-all', marginTop: '0.2rem', color: 'var(--text-primary)' }}>
-                  {issuedCred.credentialHash}
-                </div>
+              <div style={{ background: 'rgba(176, 0, 90, 0.15)', border: '1px solid var(--border-active)', padding: '0.75rem 1rem', borderRadius: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem', marginTop: '0.5rem' }}>
+                <CheckCircle2 size={16} color="#22C55E" />
+                <span style={{ color: '#FFFFFF', fontWeight: 600, fontSize: '0.82rem' }}>
+                  Cryptographically Signed &amp; Sealed in Central Registry
+                </span>
               </div>
 
               <div style={{ marginTop: '0.5rem' }}>

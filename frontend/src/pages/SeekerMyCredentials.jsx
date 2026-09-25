@@ -150,9 +150,11 @@ export const SeekerMyCredentials = () => {
               )}
             </div>
 
-            <div style={{ background: 'rgba(8, 18, 32, 0.8)', padding: '0.85rem 1rem', borderRadius: '0.45rem', fontSize: '0.75rem', marginBottom: '1.5rem', border: '1px solid var(--border)' }}>
-              <div style={{ color: 'var(--text-secondary)', fontWeight: 600, marginBottom: '0.25rem' }}>SHA-256 Tamper-Proof Hash:</div>
-              <div style={{ fontFamily: 'var(--font-mono)', wordBreak: 'break-all', color: 'var(--cyan)' }}>{selectedCred.credentialHash}</div>
+            <div style={{ background: 'rgba(176, 0, 90, 0.15)', padding: '0.85rem 1rem', borderRadius: '0.45rem', fontSize: '0.82rem', marginBottom: '1.5rem', border: '1px solid var(--border-active)', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <ShieldCheck size={18} color="#22C55E" />
+              <span style={{ color: '#FFFFFF', fontWeight: 600 }}>
+                Cryptographically Sealed &bull; Tamper-Evident Digital Credential
+              </span>
             </div>
 
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>

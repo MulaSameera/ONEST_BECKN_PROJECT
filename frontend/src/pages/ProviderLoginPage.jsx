@@ -22,8 +22,14 @@ export const ProviderLoginPage = () => {
       return;
     }
 
-    if (password.trim().length < 6) {
-      setError('Password must be at least 6 characters');
+    if (password.trim().length < 8) {
+      setError('Password must be at least 8 characters in length');
+      return;
+    }
+
+    const specialCharRegex = /[!@#$%^&*(),.?":{}|<>_\-+=\[\]\\\/`~]/;
+    if (!specialCharRegex.test(password)) {
+      setError('Password must contain at least one special character (!@#$%^&*...)');
       return;
     }
 
@@ -86,12 +92,12 @@ export const ProviderLoginPage = () => {
 
         <div>
           <label style={{ display: 'block', fontSize: '0.8125rem', fontWeight: 600, color: 'var(--text-secondary)', marginBottom: '0.4rem' }}>
-            Password
+            Password <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>(Min 8 chars, 1 special char)</span>
           </label>
           <input
             type="password"
             required
-            minLength={6}
+            minLength={8}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="••••••••"
@@ -118,19 +124,19 @@ export const ProviderLoginPage = () => {
         <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
           <button
             type="button"
-            onClick={() => setQuickCreds('ISSUER-001', 'password123')}
+            onClick={() => setQuickCreds('ISSUER-001', 'password123@')}
             className="btn btn-outline"
             style={{ width: 'auto', fontSize: '0.75rem', padding: '0.35rem 0.65rem' }}
           >
-            ISSUER-001 / password123
+            ISSUER-001 / password123@
           </button>
           <button
             type="button"
-            onClick={() => setQuickCreds('INST-001', 'admin123')}
+            onClick={() => setQuickCreds('INST-001', 'admin123#')}
             className="btn btn-outline"
             style={{ width: 'auto', fontSize: '0.75rem', padding: '0.35rem 0.65rem' }}
           >
-            INST-001 / admin123
+            INST-001 / admin123#
           </button>
         </div>
       </div>
