@@ -1,0 +1,60 @@
+databases:
+  - name: onest-db
+    databaseName: anits_onest_db
+    user: onest_user
+    plan: free
+
+services:
+  - type: web
+    name: onest-backend
+    runtime: docker
+    plan: free
+    rootDir: backend
+    dockerfilePath: Dockerfile
+    healthCheckPath: /api/health
+    envVars:
+      - key: DB_HOST
+        fromDatabase:
+          name: onest-db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: onest-db
+          property: port
+      - key: DB_NAME
+        fromDatabase:
+          name: onest-db
+          property: database
+      - key: DB_USERNAME
+        fromDatabase:
+          name: onest-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: onest-db
+          property: password
+      - key: DB_SSLMODE
+        value: prefer
+      - key: JWT_SECRET
+        generateValue: true
+      - key: FRONTEND_URL
+        value: https://onest-anits-frontend.onrender.com
+      - key: CORS_ALLOWED_ORIGINS
+        value: https://*.onrender.com,https://*.vercel.app
+
+  - type: web
+    name: onest-anits-frontend
+    runtime: static
+    rootDir: frontend
+    buildCommand: npm ci && npm run build
+    staticPublishPath: ./dist
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    envVars:
+      - key: VITE_API_BASE_URL
+        fromService:
+          type: web
+          name: onest-backend
+          envVarKey: RENDER_EXTERNAL_URL

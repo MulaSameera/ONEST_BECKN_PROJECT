@@ -64,6 +64,33 @@ public class Credential {
     @Column(name = "data_classification", length = 40, nullable = false)
     private String dataClassification;
 
+    @Column(name = "sgpa", precision = 4, scale = 2)
+    private BigDecimal sgpa;
+
+    @Column(name = "cgpa", precision = 4, scale = 2)
+    private BigDecimal cgpa;
+
+    @Column(name = "backlog_count")
+    private Integer backlogCount;
+
+    @Column(name = "qr_code_base64", columnDefinition = "TEXT")
+    private String qrCodeBase64;
+
+    @Column(name = "signatories", length = 200)
+    private String signatories;
+
+    @Column(name = "digital_signature", columnDefinition = "TEXT")
+    private String digitalSignature;
+
+    @Column(name = "signature_algorithm", length = 50)
+    private String signatureAlgorithm;
+
+    @Column(name = "issuer_public_key", columnDefinition = "TEXT")
+    private String issuerPublicKey;
+
+    @Column(name = "key_id", length = 100)
+    private String keyId;
+
     public Credential() {}
 
     public String getCredentialId() {
@@ -200,5 +227,77 @@ public class Credential {
 
     public void setDataClassification(String dataClassification) {
         this.dataClassification = dataClassification;
+    }
+
+    public BigDecimal getSgpa() {
+        return sgpa;
+    }
+
+    public void setSgpa(BigDecimal sgpa) {
+        this.sgpa = sgpa;
+    }
+
+    public BigDecimal getCgpa() {
+        return cgpa;
+    }
+
+    public void setCgpa(BigDecimal cgpa) {
+        this.cgpa = cgpa;
+    }
+
+    public Integer getBacklogCount() {
+        return backlogCount;
+    }
+
+    public void setBacklogCount(Integer backlogCount) {
+        this.backlogCount = backlogCount;
+    }
+
+    public String getQrCodeBase64() {
+        return qrCodeBase64;
+    }
+
+    public void setQrCodeBase64(String qrCodeBase64) {
+        this.qrCodeBase64 = qrCodeBase64;
+    }
+
+    public String getSignatories() {
+        return signatories;
+    }
+
+    public void setSignatories(String signatories) {
+        this.signatories = signatories;
+    }
+
+    public String getDigitalSignature() {
+        return digitalSignature;
+    }
+
+    public void setDigitalSignature(String digitalSignature) {
+        this.digitalSignature = digitalSignature;
+    }
+
+    public String getSignatureAlgorithm() {
+        return signatureAlgorithm;
+    }
+
+    public void setSignatureAlgorithm(String signatureAlgorithm) {
+        this.signatureAlgorithm = signatureAlgorithm;
+    }
+
+    public String getIssuerPublicKey() {
+        return issuerPublicKey;
+    }
+
+    public void setIssuerPublicKey(String issuerPublicKey) {
+        this.issuerPublicKey = issuerPublicKey;
+    }
+
+    public String getKeyId() {
+        return keyId;
+    }
+
+    public void setKeyId(String keyId) {
+        this.keyId = keyId;
     }
 }

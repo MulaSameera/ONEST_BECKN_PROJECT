@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Building2, ArrowLeft, Lock, AlertCircle, Key } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 export const ProviderLoginPage = () => {
@@ -53,91 +52,96 @@ export const ProviderLoginPage = () => {
   };
 
   return (
-    <div className="health-card" style={{ maxWidth: '480px', margin: '3rem auto', padding: '2.5rem' }}>
-      <Link to="/" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.85rem', color: 'var(--text-secondary)', marginBottom: '1.5rem', transition: 'color 150ms' }}>
-        <ArrowLeft size={16} /> Back to Portals
+    <div style={{ maxWidth: '460px', margin: '3.5rem auto 4.5rem' }}>
+      <Link to="/" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.85rem', color: 'var(--text-secondary)', textDecoration: 'none', marginBottom: '1.5rem', fontWeight: 500 }}>
+        &larr; Back to Platform Home
       </Link>
 
-      <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem', marginBottom: '1.75rem' }}>
-        <div className="portal-icon-wrapper portal-icon-provider" style={{ width: '3rem', height: '3rem', marginBottom: 0 }}>
-          <Building2 size={24} />
-        </div>
-        <div>
-          <h2 style={{ fontSize: '1.4rem', fontWeight: 800, color: 'var(--text-primary)', letterSpacing: '-0.02em' }}>Provider Authentication</h2>
-          <p style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)' }}>Issuing Institutions &amp; Universities</p>
-        </div>
-      </div>
+      <div className="floating-credential-card" style={{ maxWidth: '100%', transform: 'none' }}>
+        <div className="credential-card-accent-spine" style={{ width: '8px' }}></div>
+        <div className="credential-card-body" style={{ padding: '2.25rem' }}>
+          <div className="hero-eyebrow" style={{ marginBottom: '0.75rem' }}>
+            <span className="eyebrow-crimson-bar"></span>
+            <span>INSTITUTIONAL ACCESS</span>
+          </div>
 
-      {error && (
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.75rem 1rem', background: 'var(--danger-bg)', border: '1px solid var(--danger-border)', borderRadius: '0.5rem', color: '#f87171', fontSize: '0.875rem', marginBottom: '1.25rem' }}>
-          <AlertCircle size={16} style={{ flexShrink: 0 }} />
-          <span>{error}</span>
-        </div>
-      )}
+          <h2 className="hero-serif-heading" style={{ fontSize: '1.85rem', marginBottom: '0.35rem' }}>
+            Issuer Portal Login
+          </h2>
+          <p style={{ fontSize: '0.825rem', color: 'var(--text-secondary)', marginBottom: '1.75rem' }}>
+            Accredited universities, colleges, and training institutes.
+          </p>
 
-      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-        <div>
-          <label style={{ display: 'block', fontSize: '0.8125rem', fontWeight: 600, color: 'var(--text-secondary)', marginBottom: '0.4rem' }}>
-            Issuer ID / Institution Code
-          </label>
-          <input
-            type="text"
-            required
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            placeholder="e.g. ISSUER-001 or INST-001"
-            style={{ width: '100%', padding: '0.7rem 0.9rem', borderRadius: '0.5rem', fontSize: '0.9375rem' }}
-          />
-        </div>
+          {error && (
+            <div style={{ padding: '0.85rem 1rem', background: 'var(--status-error-bg)', border: '1px solid var(--status-error-border)', borderRadius: '6px', color: 'var(--status-error-fg)', fontSize: '0.8125rem', marginBottom: '1.5rem', fontFamily: 'var(--font-mono)' }}>
+              [AUTH ERROR] {error}
+            </div>
+          )}
 
-        <div>
-          <label style={{ display: 'block', fontSize: '0.8125rem', fontWeight: 600, color: 'var(--text-secondary)', marginBottom: '0.4rem' }}>
-            Password <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>(Min 8 chars, 1 special char)</span>
-          </label>
-          <input
-            type="password"
-            required
-            minLength={8}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="••••••••"
-            style={{ width: '100%', padding: '0.7rem 0.9rem', borderRadius: '0.5rem', fontSize: '0.9375rem' }}
-          />
-        </div>
+          <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+            <div>
+              <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: '#374151', marginBottom: '0.4rem', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                Issuer ID / Institution Code
+              </label>
+              <input
+                type="text"
+                required
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                placeholder="e.g. INST-ANITS or ISSUER-ANITS"
+                style={{ width: '100%', padding: '0.75rem 0.95rem', borderRadius: '6px', border: '1px solid var(--border-wire)', fontSize: '0.9rem', outline: 'none', fontFamily: 'var(--font-mono)' }}
+              />
+            </div>
 
-        <button
-          type="submit"
-          disabled={loading}
-          className="btn btn-primary"
-          style={{ marginTop: '0.5rem' }}
-        >
-          <Lock size={16} />
-          {loading ? 'Authenticating...' : 'Authenticate Provider'}
-        </button>
-      </form>
+            <div>
+              <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: '#374151', marginBottom: '0.4rem', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                Password <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)', textTransform: 'none', fontWeight: 400 }}>(Min 8 chars, 1 special char)</span>
+              </label>
+              <input
+                type="password"
+                required
+                minLength={8}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="••••••••"
+                style={{ width: '100%', padding: '0.75rem 0.95rem', borderRadius: '6px', border: '1px solid var(--border-wire)', fontSize: '0.9rem', outline: 'none' }}
+              />
+            </div>
 
-      {/* Quick Access Credentials */}
-      <div style={{ marginTop: '2rem', paddingTop: '1.25rem', borderTop: '1px solid var(--border)' }}>
-        <div style={{ fontSize: '0.72rem', fontWeight: 700, color: 'var(--cyan)', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '0.6rem', display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
-          <Key size={12} /> Sample Authorized Profiles
-        </div>
-        <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-          <button
-            type="button"
-            onClick={() => setQuickCreds('ISSUER-001', 'password123@')}
-            className="btn btn-outline"
-            style={{ width: 'auto', fontSize: '0.75rem', padding: '0.35rem 0.65rem' }}
-          >
-            ISSUER-001 / password123@
-          </button>
-          <button
-            type="button"
-            onClick={() => setQuickCreds('INST-001', 'admin123#')}
-            className="btn btn-outline"
-            style={{ width: 'auto', fontSize: '0.75rem', padding: '0.35rem 0.65rem' }}
-          >
-            INST-001 / admin123#
-          </button>
+            <button
+              type="submit"
+              disabled={loading}
+              className="btn btn-hero-wine"
+              style={{ width: '100%', marginTop: '0.5rem', padding: '0.85rem', justifyContent: 'center' }}
+            >
+              {loading ? 'Authenticating Authority...' : 'Sign In to Issuer Portal \u2192'}
+            </button>
+          </form>
+
+          {/* Quick Access Credentials */}
+          <div style={{ marginTop: '2rem', paddingTop: '1.25rem', borderTop: '1px solid var(--border-wire)' }}>
+            <div style={{ fontSize: '0.7rem', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '0.65rem' }}>
+              Authorized Demonstration Credentials:
+            </div>
+            <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+              <button
+                type="button"
+                onClick={() => setQuickCreds('INST-ANITS', 'admin123#')}
+                className="btn btn-outline"
+                style={{ width: 'auto', fontSize: '0.75rem', padding: '0.35rem 0.65rem', borderRadius: '4px' }}
+              >
+                INST-ANITS / admin123#
+              </button>
+              <button
+                type="button"
+                onClick={() => setQuickCreds('ISSUER-ANITS', 'password123@')}
+                className="btn btn-outline"
+                style={{ width: 'auto', fontSize: '0.75rem', padding: '0.35rem 0.65rem', borderRadius: '4px' }}
+              >
+                ISSUER-ANITS / password123@
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>

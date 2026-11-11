@@ -1,13 +1,28 @@
 import axios from 'axios';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api';
+function resolveApiBaseUrl(rawUrl) {
+  if (!rawUrl || !rawUrl.trim()) {
+    return '/api';
+  }
+  let normalized = rawUrl.trim().replace(/\/+$/, '');
+  if (normalized === '/api' || normalized.startsWith('/')) {
+    return normalized;
+  }
+  if (!normalized.startsWith('http://') && !normalized.startsWith('https://')) {
+    normalized = `https://${normalized}`;
+  }
+  return normalized.endsWith('/api') ? normalized : `${normalized}/api`;
+}
+
+const API_BASE_URL = resolveApiBaseUrl(import.meta.env.VITE_API_BASE_URL);
 
 const apiClient = axios.create({
   baseURL: API_BASE_URL,
   headers: {
     'Content-Type': 'application/json',
   },
-  timeout: 15000,
+  // 60s timeout accommodates cold starts on free-tier cloud containers
+  timeout: 60000,
 });
 
 apiClient.interceptors.request.use(
@@ -50,6 +65,7 @@ export const authApi = {
 export const studentApi = {
   getStudents: async (page = 0, size = 20) => (await apiClient.get(`/students?page=${page}&size=${size}`)).data,
   getStudentById: async (id) => (await apiClient.get(`/students/${id}`)).data,
+  getSemesterRecord: async (id) => (await apiClient.get(`/students/${id}/semester-record`)).data,
 };
 
 // Eligibility Engine

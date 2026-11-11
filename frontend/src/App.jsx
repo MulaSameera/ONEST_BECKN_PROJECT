@@ -4,7 +4,6 @@ import { AuthProvider } from './context/AuthContext';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import { ProtectedRoute } from './components/ProtectedRoute';
-import { DustParticles } from './components/DustParticles';
 
 // Public Pages
 import { LandingPage } from './pages/LandingPage';
@@ -33,7 +32,6 @@ export default function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
-        <DustParticles />
         <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', position: 'relative', zIndex: 1 }}>
           <Header />
           <main className="container" style={{ flex: 1 }}>

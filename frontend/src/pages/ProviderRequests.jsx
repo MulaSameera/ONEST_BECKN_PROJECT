@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { requestApi, eligibilityApi, credentialApi } from '../services/api';
-import { FileText, CheckCircle2, XCircle, Award, AlertCircle, RefreshCw, Eye, X } from 'lucide-react';
 
 export const ProviderRequests = () => {
   const { user } = useAuth();
@@ -20,7 +19,7 @@ export const ProviderRequests = () => {
     setLoading(true);
     setError(null);
     try {
-      const data = await requestApi.getRequestsForInstitution(user?.institutionId || 'INST-001');
+      const data = await requestApi.getRequestsForInstitution(user?.institutionId || 'INST-ANITS');
       setRequests(data);
     } catch (err) {
       setError(err.message);
@@ -55,15 +54,15 @@ export const ProviderRequests = () => {
     try {
       const issuePayload = {
         studentId: selectedReq.studentId,
-        institutionId: selectedReq.institutionId,
+        institutionId: selectedReq.institutionId || 'INST-ANITS',
         programCode: selectedReq.programCode,
         courseCode: selectedReq.courseCode,
-        credentialType: selectedReq.requestedCredentialType,
+        credentialType: selectedReq.requestedCredentialType || 'Semester Grade Card (R23)',
         requestId: selectedReq.requestId,
-        courseStartDate: '2025-06-01',
-        courseEndDate: '2026-04-30',
-        attendancePercent: 88.50,
-        finalScore: 84.00,
+        courseStartDate: '2025-11-15',
+        courseEndDate: '2026-05-30',
+        attendancePercent: 92.50,
+        finalScore: 91.50,
       };
 
       const res = await credentialApi.generateCredential(issuePayload);
@@ -94,23 +93,27 @@ export const ProviderRequests = () => {
 
   return (
     <div>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.75rem', flexWrap: 'wrap', gap: '1rem' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem', flexWrap: 'wrap', gap: '1rem', borderBottom: '1px solid var(--border-wire)', paddingBottom: '1.25rem' }}>
         <div>
-          <h2 style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--text-primary)', letterSpacing: '-0.02em' }}>
+          <div className="hero-eyebrow" style={{ marginBottom: '0.4rem' }}>
+            <span className="eyebrow-crimson-bar"></span>
+            <span>STUDENT INBOX QUEUE</span>
+          </div>
+          <h2 className="hero-serif-heading" style={{ fontSize: '1.85rem', marginBottom: '0.35rem' }}>
             Credential Requests Review Queue
           </h2>
           <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>
             Review incoming student credential requests &bull; Execute automated eligibility checks &bull; Issue verified credentials
           </p>
         </div>
-        <button onClick={fetchRequests} className="btn btn-outline" style={{ width: 'auto' }}>
-          <RefreshCw size={14} className={loading ? 'spin' : ''} /> Refresh Queue
+        <button onClick={fetchRequests} className="btn btn-refresh">
+          {loading ? 'Refreshing...' : 'Refresh Queue'}
         </button>
       </div>
 
       {error && (
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.75rem 1rem', background: 'var(--danger-bg)', border: '1px solid var(--danger-border)', borderRadius: '0.5rem', color: '#f87171', marginBottom: '1.5rem' }}>
-          <AlertCircle size={16} /> {error}
+        <div style={{ padding: '0.85rem 1rem', background: 'var(--status-error-bg)', border: '1px solid var(--status-error-border)', borderRadius: '3px', color: 'var(--status-error-fg)', fontSize: '0.85rem', marginBottom: '1.5rem', fontFamily: 'var(--font-mono)' }}>
+          {error}
         </div>
       )}
 
@@ -118,15 +121,14 @@ export const ProviderRequests = () => {
       <div style={{ display: 'grid', gridTemplateColumns: selectedReq ? '1fr 1fr' : '1fr', gap: '1.75rem' }}>
         {/* Table Column */}
         <div className="health-card" style={{ padding: '1.25rem' }}>
-          <div style={{ fontSize: '0.875rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <FileText size={16} color="var(--primary)" /> Requests Inbox ({requests.length})
+          <div style={{ fontSize: '0.875rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '1rem' }}>
+            Requests Inbox ({requests.length})
           </div>
 
           {loading ? (
             <div style={{ textAlign: 'center', padding: '2.5rem', color: 'var(--text-secondary)' }}>Loading requests from database...</div>
           ) : requests.length === 0 ? (
             <div style={{ textAlign: 'center', padding: '3rem', color: 'var(--text-secondary)' }}>
-              <FileText size={36} color="var(--text-muted)" style={{ margin: '0 auto 0.75rem' }} />
               <div>No credential requests currently pending in queue.</div>
             </div>
           ) : (
@@ -146,13 +148,13 @@ export const ProviderRequests = () => {
                     <tr
                       key={r.requestId}
                       style={{
-                        background: selectedReq?.requestId === r.requestId ? 'rgba(59, 130, 246, 0.12)' : 'transparent',
+                        background: selectedReq?.requestId === r.requestId ? 'var(--bg-secondary)' : 'transparent',
                       }}
                     >
-                      <td style={{ padding: '0.65rem', fontFamily: 'var(--font-mono)', fontWeight: 600, color: 'var(--cyan)' }}>{r.requestId}</td>
+                      <td style={{ padding: '0.65rem', fontFamily: 'var(--font-mono)', fontWeight: 600 }}>{r.requestId}</td>
                       <td style={{ padding: '0.65rem' }}>
                         <div style={{ fontWeight: 600, color: 'var(--text-primary)' }}>{r.studentName}</div>
-                        <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>{r.studentId}</span>
+                        <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{r.studentId}</span>
                       </td>
                       <td style={{ padding: '0.65rem', color: 'var(--text-secondary)' }}>{r.requestedCredentialType}</td>
                       <td style={{ padding: '0.65rem' }}>
@@ -172,9 +174,9 @@ export const ProviderRequests = () => {
                         <button
                           onClick={() => handleInspectRequest(r)}
                           className="btn btn-outline"
-                          style={{ width: 'auto', padding: '0.3rem 0.75rem', fontSize: '0.75rem' }}
+                          style={{ width: 'auto', padding: '0.3rem 0.65rem', fontSize: '0.75rem' }}
                         >
-                          <Eye size={12} /> Inspect
+                          Inspect
                         </button>
                       </td>
                     </tr>
@@ -188,17 +190,17 @@ export const ProviderRequests = () => {
         {/* Inspection & Eligibility Column */}
         {selectedReq && (
           <div className="health-card" style={{ padding: '1.75rem' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem', borderBottom: '1px solid var(--border)', paddingBottom: '0.85rem' }}>
-              <h3 style={{ fontSize: '1.15rem', fontWeight: 700, color: 'var(--text-primary)' }}>Request Details & Review</h3>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem', borderBottom: '1px solid var(--border-wire)', paddingBottom: '0.85rem' }}>
+              <h3 style={{ fontSize: '1.15rem', fontWeight: 700, color: 'var(--text-primary)' }}>Request Details &amp; Review</h3>
               <button
                 onClick={() => setSelectedReq(null)}
-                style={{ color: 'var(--text-secondary)', padding: '0.2rem' }}
+                style={{ color: 'var(--text-secondary)', padding: '0.2rem', fontWeight: 700 }}
               >
-                <X size={18} />
+                [Close]
               </button>
             </div>
 
-            <div style={{ fontSize: '0.85rem', marginBottom: '1.5rem', background: 'rgba(8, 18, 32, 0.6)', padding: '1rem', borderRadius: '0.5rem', border: '1px solid var(--border)' }}>
+            <div style={{ fontSize: '0.85rem', marginBottom: '1.25rem', background: 'var(--bg-secondary)', padding: '0.85rem', borderRadius: '3px', border: '1px solid var(--border-wire)' }}>
               <div style={{ marginBottom: '0.35rem' }}><strong>Candidate:</strong> {selectedReq.studentName} (<code>{selectedReq.studentId}</code>)</div>
               <div style={{ marginBottom: '0.35rem' }}><strong>Course:</strong> {selectedReq.courseName || selectedReq.courseCode}</div>
               <div style={{ marginBottom: '0.35rem' }}><strong>Type:</strong> {selectedReq.requestedCredentialType}</div>
@@ -207,32 +209,32 @@ export const ProviderRequests = () => {
 
             {/* Explainable Eligibility Result */}
             {checkingEligibility ? (
-              <div style={{ padding: '1.5rem', textAlign: 'center', color: 'var(--text-secondary)' }}>Running 5-Rule Eligibility Engine on PostgreSQL records...</div>
+              <div style={{ padding: '1.5rem', textAlign: 'center', color: 'var(--text-secondary)' }}>Running 5-Rule Eligibility Engine on registry records...</div>
             ) : eligibilityResult ? (
-              <div style={{ marginBottom: '1.5rem' }}>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.85rem' }}>
+              <div style={{ marginBottom: '1.25rem' }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.75rem' }}>
                   <span style={{ fontSize: '0.875rem', fontWeight: 700, color: 'var(--text-primary)' }}>Eligibility Evaluation:</span>
                   <span className={`badge ${eligibilityResult.eligible ? 'badge-success' : 'badge-danger'}`}>
                     {eligibilityResult.overallResult}
                   </span>
                 </div>
 
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.55rem' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                   {eligibilityResult.rules.map((rule, idx) => (
                     <div
                       key={idx}
                       style={{
                         padding: '0.65rem 0.85rem',
-                        borderRadius: '0.45rem',
+                        borderRadius: '3px',
                         border: '1px solid',
-                        borderColor: rule.passed ? 'var(--success-border)' : 'var(--danger-border)',
-                        background: rule.passed ? 'rgba(34, 197, 94, 0.08)' : 'rgba(239, 68, 68, 0.08)',
+                        borderColor: rule.passed ? 'var(--status-success-border)' : 'var(--status-error-border)',
+                        background: rule.passed ? 'var(--status-success-bg)' : 'var(--status-error-bg)',
                         fontSize: '0.8rem',
                       }}
                     >
-                      <div style={{ display: 'flex', justifyContent: 'space-between', fontWeight: 700, color: rule.passed ? '#4ade80' : '#f87171' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', fontWeight: 700, color: rule.passed ? 'var(--status-success-fg)' : 'var(--status-error-fg)' }}>
                         <span>{rule.ruleName}</span>
-                        <span>{rule.passed ? '✓ PASS' : '✗ FAIL'}</span>
+                        <span>{rule.passed ? 'PASS' : 'FAIL'}</span>
                       </div>
                       <div style={{ color: 'var(--text-secondary)', fontSize: '0.75rem', marginTop: '0.25rem' }}>
                         Actual: <strong style={{ color: 'var(--text-primary)' }}>{rule.actualValue}</strong> &bull; Required: <code>{rule.requiredValue}</code>
@@ -245,16 +247,15 @@ export const ProviderRequests = () => {
 
             {/* Issuance Success Result */}
             {issuedCred && (
-              <div style={{ padding: '1.25rem', background: 'rgba(34, 197, 94, 0.12)', border: '1px solid var(--success-border)', borderRadius: '0.65rem', marginBottom: '1.5rem' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#4ade80', fontWeight: 700, marginBottom: '0.6rem' }}>
-                  <CheckCircle2 size={18} /> Credential Successfully Issued!
+              <div style={{ padding: '1.25rem', background: 'var(--status-success-bg)', border: '1px solid var(--status-success-border)', borderRadius: '3px', marginBottom: '1.25rem' }}>
+                <div style={{ color: 'var(--status-success-fg)', fontWeight: 700, marginBottom: '0.5rem', fontFamily: 'var(--font-mono)' }}>
+                  STATUS: VALID (CREDENTIAL ISSUED &amp; PERSISTED)
                 </div>
                 <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
                   <div><strong>Credential ID:</strong> <code>{issuedCred.credentialId}</code></div>
-                  <div style={{ marginTop: '0.35rem' }}><strong>SHA-256 Hash:</strong> <code style={{ fontSize: '0.7rem' }}>{issuedCred.credentialHash}</code></div>
                 </div>
                 {issuedCred.qrCodeBase64 && (
-                  <div style={{ marginTop: '1rem', textAlign: 'center', background: '#fff', padding: '0.75rem', borderRadius: '0.5rem', width: 'fit-content', margin: '1rem auto 0' }}>
+                  <div style={{ marginTop: '0.85rem', textAlign: 'center', background: '#fff', padding: '0.5rem', borderRadius: '3px', width: 'fit-content', margin: '0.85rem auto 0', border: '1px solid var(--border-wire)' }}>
                     <img src={issuedCred.qrCodeBase64} alt="Verification QR Code" style={{ width: '120px', height: '120px', display: 'block' }} />
                   </div>
                 )}
@@ -270,16 +271,15 @@ export const ProviderRequests = () => {
                   className="btn btn-primary"
                   style={{ flex: 1 }}
                 >
-                  <Award size={16} />
                   {actionLoading ? 'Issuing & Hashing...' : 'Approve & Issue Credential'}
                 </button>
                 <button
                   onClick={() => setShowRejectModal(true)}
                   disabled={actionLoading}
                   className="btn btn-outline"
-                  style={{ width: 'auto', color: '#f87171', borderColor: 'var(--danger-border)' }}
+                  style={{ width: 'auto', color: 'var(--status-error-fg)', borderColor: 'var(--status-error-border)' }}
                 >
-                  <XCircle size={16} /> Reject
+                  Reject
                 </button>
               </div>
             )}
@@ -290,8 +290,8 @@ export const ProviderRequests = () => {
       {/* Reject Modal */}
       {showRejectModal && (
         <div className="modal-overlay">
-          <div className="modal-content" style={{ padding: '2rem', width: '90%', maxWidth: '450px' }}>
-            <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--text-primary)', marginBottom: '0.5rem' }}>Reject Credential Request</h3>
+          <div className="modal-content" style={{ padding: '1.75rem', width: '90%', maxWidth: '450px' }}>
+            <h3 style={{ fontSize: '1.2rem', fontWeight: 800, color: 'var(--text-primary)', marginBottom: '0.5rem' }}>Reject Credential Request</h3>
             <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginBottom: '1.25rem' }}>
               Please provide an explainable reason for rejecting this request:
             </p>
@@ -299,14 +299,14 @@ export const ProviderRequests = () => {
               rows={3}
               value={rejectReason}
               onChange={(e) => setRejectReason(e.target.value)}
-              placeholder="e.g. Attendance threshold (68%) below required minimum of 75%."
-              style={{ width: '100%', padding: '0.65rem 0.85rem', borderRadius: '0.5rem', marginBottom: '1.25rem', fontSize: '0.875rem' }}
+              placeholder="e.g. Attendance threshold below required minimum of 75%."
+              style={{ width: '100%', padding: '0.65rem 0.85rem', borderRadius: '3px', marginBottom: '1.25rem', fontSize: '0.875rem' }}
             />
             <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'flex-end' }}>
               <button onClick={() => setShowRejectModal(false)} className="btn btn-outline" style={{ width: 'auto' }}>
                 Cancel
               </button>
-              <button onClick={handleReject} disabled={!rejectReason.trim() || actionLoading} className="btn btn-primary" style={{ width: 'auto', background: 'var(--danger)' }}>
+              <button onClick={handleReject} disabled={!rejectReason.trim() || actionLoading} className="btn btn-danger" style={{ width: 'auto' }}>
                 Confirm Rejection
               </button>
             </div>

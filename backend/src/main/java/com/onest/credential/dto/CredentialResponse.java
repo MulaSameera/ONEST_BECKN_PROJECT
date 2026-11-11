@@ -30,6 +30,23 @@ public class CredentialResponse {
     private String dataClassification;
     private String qrCodeBase64;
     private String verificationUrl;
+    private BigDecimal sgpa;
+    private BigDecimal cgpa;
+    private Integer backlogCount;
+    private String signatories;
+    private String regulation;
+    private String batchYear;
+    private String integrityStatus;
+    private boolean valid;
+    private String computedHash;
+    private String digitalSignature;
+    private String signatureAlgorithm;
+    private String issuerPublicKey;
+    private String keyId;
+    private String publicKeyFingerprint;
+    private Boolean signatureValid;
+    private String eligibilityOutcome;
+    private java.util.List<String> failedEligibilityRules;
 
     public CredentialResponse() {}
 
@@ -231,5 +248,141 @@ public class CredentialResponse {
 
     public void setVerificationUrl(String verificationUrl) {
         this.verificationUrl = verificationUrl;
+    }
+
+    public BigDecimal getSgpa() {
+        return sgpa;
+    }
+
+    public void setSgpa(BigDecimal sgpa) {
+        this.sgpa = sgpa;
+    }
+
+    public BigDecimal getCgpa() {
+        return cgpa;
+    }
+
+    public void setCgpa(BigDecimal cgpa) {
+        this.cgpa = cgpa;
+    }
+
+    public Integer getBacklogCount() {
+        return backlogCount;
+    }
+
+    public void setBacklogCount(Integer backlogCount) {
+        this.backlogCount = backlogCount;
+    }
+
+    public String getSignatories() {
+        return signatories;
+    }
+
+    public void setSignatories(String signatories) {
+        this.signatories = signatories;
+    }
+
+    public String getRegulation() {
+        return regulation;
+    }
+
+    public void setRegulation(String regulation) {
+        this.regulation = regulation;
+    }
+
+    public String getBatchYear() {
+        return batchYear;
+    }
+
+    public void setBatchYear(String batchYear) {
+        this.batchYear = batchYear;
+    }
+
+    public String getIntegrityStatus() {
+        return integrityStatus;
+    }
+
+    public void setIntegrityStatus(String integrityStatus) {
+        this.integrityStatus = integrityStatus;
+    }
+
+    public boolean isValid() {
+        return valid;
+    }
+
+    public void setValid(boolean valid) {
+        this.valid = valid;
+    }
+
+    public String getComputedHash() {
+        return computedHash;
+    }
+
+    public void setComputedHash(String computedHash) {
+        this.computedHash = computedHash;
+    }
+
+    public String getDigitalSignature() {
+        return digitalSignature;
+    }
+
+    public void setDigitalSignature(String digitalSignature) {
+        this.digitalSignature = digitalSignature;
+    }
+
+    public String getSignatureAlgorithm() {
+        return signatureAlgorithm;
+    }
+
+    public void setSignatureAlgorithm(String signatureAlgorithm) {
+        this.signatureAlgorithm = signatureAlgorithm;
+    }
+
+    public String getIssuerPublicKey() {
+        return issuerPublicKey;
+    }
+
+    public void setIssuerPublicKey(String issuerPublicKey) {
+        this.issuerPublicKey = issuerPublicKey;
+    }
+
+    public String getKeyId() {
+        return keyId;
+    }
+
+    public void setKeyId(String keyId) {
+        this.keyId = keyId;
+    }
+
+    public String getPublicKeyFingerprint() {
+        return publicKeyFingerprint;
+    }
+
+    public void setPublicKeyFingerprint(String publicKeyFingerprint) {
+        this.publicKeyFingerprint = publicKeyFingerprint;
+    }
+
+    public Boolean getSignatureValid() {
+        return signatureValid;
+    }
+
+    public void setSignatureValid(Boolean signatureValid) {
+        this.signatureValid = signatureValid;
+    }
+
+    public String getEligibilityOutcome() {
+        return eligibilityOutcome;
+    }
+
+    public void setEligibilityOutcome(String eligibilityOutcome) {
+        this.eligibilityOutcome = eligibilityOutcome;
+    }
+
+    public java.util.List<String> getFailedEligibilityRules() {
+        return failedEligibilityRules;
+    }
+
+    public void setFailedEligibilityRules(java.util.List<String> failedEligibilityRules) {
+        this.failedEligibilityRules = failedEligibilityRules;
     }
 }

@@ -23,6 +23,8 @@ public class VerificationServiceTest {
     private CanonicalCredentialService canonicalService;
     private HashService hashService;
     private AuditService auditService;
+    private QrCodeService qrCodeService;
+    private DigitalSignatureService digitalSignatureService;
 
     @BeforeEach
     void setUp() {
@@ -30,7 +32,10 @@ public class VerificationServiceTest {
         canonicalService = new CanonicalCredentialService();
         hashService = new HashService();
         auditService = Mockito.mock(AuditService.class);
-        verificationService = new VerificationService(credentialRepository, canonicalService, hashService, auditService);
+        qrCodeService = new QrCodeService();
+        digitalSignatureService = new DigitalSignatureService();
+        digitalSignatureService.init();
+        verificationService = new VerificationService(credentialRepository, canonicalService, hashService, auditService, qrCodeService, digitalSignatureService);
     }
 
     @Test

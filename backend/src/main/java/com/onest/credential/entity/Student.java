@@ -19,6 +19,21 @@ public class Student {
     @Column(name = "seeker_id", length = 30, nullable = false, unique = true)
     private String seekerId;
 
+    @Column(name = "batch_year", length = 30)
+    private String batchYear;
+
+    @Column(name = "regulation", length = 20)
+    private String regulation;
+
+    @Column(name = "current_semester", length = 30)
+    private String currentSemester;
+
+    @Column(name = "email", length = 150)
+    private String email;
+
+    @Column(name = "phone", length = 20)
+    private String phone;
+
     public Student() {}
 
     public Student(String studentId, String studentName, String seekerId) {
@@ -49,5 +64,45 @@ public class Student {
 
     public void setSeekerId(String seekerId) {
         this.seekerId = seekerId;
+    }
+
+    public String getBatchYear() {
+        return batchYear;
+    }
+
+    public void setBatchYear(String batchYear) {
+        this.batchYear = batchYear;
+    }
+
+    public String getRegulation() {
+        return regulation;
+    }
+
+    public void setRegulation(String regulation) {
+        this.regulation = regulation;
+    }
+
+    public String getCurrentSemester() {
+        return currentSemester;
+    }
+
+    public void setCurrentSemester(String currentSemester) {
+        this.currentSemester = currentSemester;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 }

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { studentApi } from '../services/api';
-import { Search, RefreshCw, CheckCircle2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export const ProviderStudents = () => {
@@ -50,17 +49,17 @@ export const ProviderStudents = () => {
 
   return (
     <div>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.75rem', flexWrap: 'wrap', gap: '1rem' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.75rem', flexWrap: 'wrap', gap: '1rem', borderBottom: '1px solid var(--border-wire)', paddingBottom: '1rem' }}>
         <div>
           <h2 style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--text-primary)', letterSpacing: '-0.02em' }}>
-            Students Directory (PostgreSQL Dataset)
+            Students Directory
           </h2>
           <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>
-            Direct queries against the 20,000 real student records in <code>onest_credentials_db</code>
+            Direct queries against authoritative registry student records
           </p>
         </div>
         <button onClick={() => fetchStudents(page)} className="btn btn-outline" style={{ width: 'auto' }}>
-          <RefreshCw size={14} className={loading ? 'spin' : ''} /> Refresh
+          {loading ? 'Refreshing...' : 'Refresh'}
         </button>
       </div>
 
@@ -69,13 +68,13 @@ export const ProviderStudents = () => {
         <form onSubmit={handleSearch} style={{ display: 'flex', gap: '0.75rem' }}>
           <input
             type="text"
-            placeholder="Search by Student ID (e.g. STU-000001)..."
+            placeholder="Search by Student Hall Ticket / ID (e.g. A23126510162)..."
             value={searchId}
             onChange={(e) => setSearchId(e.target.value)}
-            style={{ flex: 1, padding: '0.7rem 0.95rem', borderRadius: '0.5rem', fontSize: '0.875rem' }}
+            style={{ flex: 1, padding: '0.65rem 0.85rem', borderRadius: '3px', fontSize: '0.875rem' }}
           />
-          <button type="submit" className="btn btn-primary" style={{ width: 'auto', padding: '0.7rem 1.25rem' }}>
-            <Search size={16} /> Search
+          <button type="submit" className="btn btn-primary" style={{ width: 'auto', padding: '0.65rem 1.15rem' }}>
+            Search
           </button>
           {searchId && (
             <button
@@ -90,10 +89,16 @@ export const ProviderStudents = () => {
         </form>
       </div>
 
+      {error && (
+        <div style={{ padding: '0.85rem 1rem', background: 'var(--status-error-bg)', border: '1px solid var(--status-error-border)', borderRadius: '3px', color: 'var(--status-error-fg)', fontSize: '0.85rem', marginBottom: '1.5rem', fontFamily: 'var(--font-mono)' }}>
+          {error}
+        </div>
+      )}
+
       {/* Table */}
       <div className="health-card" style={{ padding: '1.25rem' }}>
         {loading ? (
-          <div style={{ textAlign: 'center', padding: '3rem', color: 'var(--text-secondary)' }}>Querying students from PostgreSQL...</div>
+          <div style={{ textAlign: 'center', padding: '3rem', color: 'var(--text-secondary)' }}>Querying students from registry...</div>
         ) : (
           <div style={{ overflowX: 'auto' }}>
             <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.85rem' }}>
@@ -108,7 +113,7 @@ export const ProviderStudents = () => {
               <tbody>
                 {students.map((s) => (
                   <tr key={s.studentId}>
-                    <td style={{ padding: '0.65rem', fontFamily: 'var(--font-mono)', fontWeight: 600, color: 'var(--cyan)' }}>
+                    <td style={{ padding: '0.65rem', fontFamily: 'var(--font-mono)', fontWeight: 600 }}>
                       {s.studentId}
                     </td>
                     <td style={{ padding: '0.65rem', fontWeight: 600, color: 'var(--text-primary)' }}>{s.studentName}</td>
@@ -117,9 +122,9 @@ export const ProviderStudents = () => {
                       <Link
                         to="/provider/eligibility"
                         className="btn btn-outline"
-                        style={{ width: 'auto', padding: '0.3rem 0.75rem', fontSize: '0.75rem', display: 'inline-flex' }}
+                        style={{ width: 'auto', padding: '0.3rem 0.65rem', fontSize: '0.75rem', display: 'inline-block' }}
                       >
-                        <CheckCircle2 size={12} /> Check Eligibility
+                        Check Eligibility
                       </Link>
                     </td>
                   </tr>
@@ -129,7 +134,7 @@ export const ProviderStudents = () => {
 
             {/* Pagination */}
             {totalPages > 1 && (
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '1.5rem', paddingTop: '1rem', borderTop: '1px solid var(--border)', fontSize: '0.85rem' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '1.5rem', paddingTop: '1rem', borderTop: '1px solid var(--border-wire)', fontSize: '0.85rem' }}>
                 <button
                   onClick={() => fetchStudents(page - 1)}
                   disabled={page === 0}

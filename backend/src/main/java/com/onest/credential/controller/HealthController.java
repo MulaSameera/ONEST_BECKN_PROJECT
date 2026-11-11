@@ -23,7 +23,7 @@ public class HealthController {
     private final CourseRepository courseRepository;
     private final CredentialRepository credentialRepository;
 
-    @Value("${spring.datasource.url:jdbc:postgresql://localhost:5432/onest_credentials_db}")
+    @Value("${spring.datasource.url:jdbc:postgresql://localhost:5432/anits_onest_db}")
     private String dbUrl;
 
     public HealthController(
@@ -59,7 +59,7 @@ public class HealthController {
             counts.put("courses", courseRepository.count());
             counts.put("credentials", credentialRepository.count());
 
-            String dbName = "onest_credentials_db";
+            String dbName = "anits_onest_db";
             if (dbUrl.contains("/")) {
                 String sub = dbUrl.substring(dbUrl.lastIndexOf("/") + 1);
                 if (sub.contains("?")) {
@@ -82,7 +82,7 @@ public class HealthController {
             return ResponseEntity.status(503).body(new DatabaseHealthResponse(
                     "DOWN",
                     "PostgreSQL",
-                    "onest_credentials_db",
+                    "anits_onest_db",
                     Instant.now(),
                     Map.of(),
                     "Database connection failure: " + ex.getMessage()

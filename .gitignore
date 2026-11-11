@@ -70,3 +70,9 @@ logs/
 *.bak
 *.swp
 *.swo
+
+# Local agent tooling, binaries, and DB backups
+.agent/
+*.exe
+*.dump
+*_backup.sql

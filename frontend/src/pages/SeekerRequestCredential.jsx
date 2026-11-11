@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { requestApi } from '../services/api';
-import { FileText, CheckCircle2, AlertCircle, ArrowRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 export const SeekerRequestCredential = () => {
@@ -9,10 +8,10 @@ export const SeekerRequestCredential = () => {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    institutionId: 'INST-001',
-    programCode: 'PRG-001',
-    courseCode: 'CRS-001',
-    requestedCredentialType: 'Course Completion Credential',
+    institutionId: 'INST-ANITS',
+    programCode: 'PRG-CSE',
+    courseCode: 'CSE-ML',
+    requestedCredentialType: 'Semester Grade Card (R23)',
   });
 
   const [loading, setLoading] = useState(false);
@@ -30,7 +29,7 @@ export const SeekerRequestCredential = () => {
     try {
       await requestApi.createRequest({
         ...formData,
-        studentId: user?.studentId || 'STU-000001',
+        studentId: user?.studentId || 'A23126510162',
       });
       setSuccess(true);
     } catch (err) {
@@ -41,8 +40,8 @@ export const SeekerRequestCredential = () => {
   };
 
   return (
-    <div style={{ maxWidth: '560px', margin: '0 auto' }}>
-      <div style={{ marginBottom: '2rem' }}>
+    <div style={{ maxWidth: '580px', margin: '0 auto' }}>
+      <div style={{ marginBottom: '2rem', borderBottom: '1px solid var(--border-wire)', paddingBottom: '1rem' }}>
         <h2 style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--text-primary)', letterSpacing: '-0.02em' }}>
           Request Digital Credential
         </h2>
@@ -52,93 +51,124 @@ export const SeekerRequestCredential = () => {
       </div>
 
       {success ? (
-        <div className="health-card" style={{ padding: '2.5rem', textAlign: 'center', border: '1px solid var(--success-border)', background: 'rgba(6, 78, 59, 0.25)' }}>
-          <div style={{ width: '4rem', height: '4rem', borderRadius: '50%', background: 'rgba(34, 197, 94, 0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1rem' }}>
-            <CheckCircle2 size={36} color="var(--success)" />
+        <div className="health-card" style={{ padding: '2.5rem', textAlign: 'center', border: '1px solid var(--status-success-border)', background: 'var(--status-success-bg)' }}>
+          <div style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--status-success-fg)', marginBottom: '0.5rem', fontFamily: 'var(--font-mono)' }}>
+            STATUS: REQUEST SUBMITTED SUCCESSFULLY
           </div>
-          <h3 style={{ fontSize: '1.35rem', fontWeight: 800, color: '#4ade80', marginBottom: '0.5rem' }}>
-            Request Submitted Successfully!
-          </h3>
           <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: '1.75rem', lineHeight: 1.6 }}>
             Your request has been placed in the institution's review queue. Once your academic eligibility is evaluated, your credential will be issued and appear in your wallet.
           </p>
-          <button onClick={() => navigate('/seeker/dashboard')} className="btn btn-primary" style={{ width: 'auto', padding: '0.75rem 1.5rem' }}>
-            Go to Dashboard <ArrowRight size={16} />
+          <button onClick={() => navigate('/seeker/dashboard')} className="btn btn-primary" style={{ width: 'auto', padding: '0.65rem 1.5rem' }}>
+            Go to Dashboard
           </button>
         </div>
       ) : (
-        <div className="health-card" style={{ padding: '2.25rem' }}>
+        <div className="health-card" style={{ padding: '2rem' }}>
           {error && (
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.75rem 1rem', background: 'var(--danger-bg)', border: '1px solid var(--danger-border)', borderRadius: '0.5rem', color: '#f87171', fontSize: '0.875rem', marginBottom: '1.25rem' }}>
-              <AlertCircle size={16} /> {error}
+            <div style={{ padding: '0.75rem 1rem', background: 'var(--status-error-bg)', border: '1px solid var(--status-error-border)', borderRadius: '3px', color: 'var(--status-error-fg)', fontSize: '0.85rem', marginBottom: '1.25rem', fontFamily: 'var(--font-mono)' }}>
+              [ERROR] {error}
             </div>
           )}
 
           <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
             <div>
-              <label style={{ display: 'block', fontSize: '0.8125rem', fontWeight: 600, color: 'var(--text-secondary)', marginBottom: '0.4rem' }}>
-                Institution ID
+              <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-secondary)', marginBottom: '0.35rem', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                Issuing Institution Code
               </label>
               <input
                 type="text"
                 required
                 name="institutionId"
-                placeholder="e.g. INST-001, INST-002, etc."
+                placeholder="e.g. INST-ANITS"
                 value={formData.institutionId}
                 onChange={handleChange}
-                style={{ width: '100%', padding: '0.7rem 0.9rem', borderRadius: '0.5rem', fontSize: '0.9rem' }}
+                style={{ width: '100%', padding: '0.65rem 0.85rem', borderRadius: '3px', fontSize: '0.875rem', fontFamily: 'var(--font-mono)' }}
               />
-              <div style={{ display: 'flex', gap: '0.4rem', marginTop: '0.4rem', fontSize: '0.75rem', color: 'var(--text-secondary)' }}>
+              <div style={{ display: 'flex', gap: '0.4rem', marginTop: '0.4rem', fontSize: '0.75rem', color: 'var(--text-secondary)', alignItems: 'center' }}>
                 <span>Quick Select:</span>
-                <button type="button" onClick={() => setFormData(prev => ({ ...prev, institutionId: 'INST-001' }))} style={{ color: 'var(--cyan)', textDecoration: 'underline' }}>INST-001</button>
-                <button type="button" onClick={() => setFormData(prev => ({ ...prev, institutionId: 'INST-002' }))} style={{ color: 'var(--cyan)', textDecoration: 'underline' }}>INST-002</button>
-                <button type="button" onClick={() => setFormData(prev => ({ ...prev, institutionId: 'INST-003' }))} style={{ color: 'var(--cyan)', textDecoration: 'underline' }}>INST-003</button>
+                <button
+                  type="button"
+                  onClick={() => setFormData(prev => ({ ...prev, institutionId: 'INST-ANITS' }))}
+                  style={{ color: 'var(--accent-wine)', textDecoration: 'underline', fontWeight: 600 }}
+                >
+                  INST-ANITS (Anil Neerukonda Institute of Tech &amp; Sci)
+                </button>
               </div>
             </div>
 
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem' }}>
               <div>
-                <label style={{ display: 'block', fontSize: '0.8125rem', fontWeight: 600, color: 'var(--text-secondary)', marginBottom: '0.4rem' }}>Program Code</label>
-                <input
-                  type="text"
-                  required
+                <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-secondary)', marginBottom: '0.35rem', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                  Program (Branch)
+                </label>
+                <select
                   name="programCode"
                   value={formData.programCode}
                   onChange={handleChange}
-                  style={{ width: '100%', padding: '0.7rem 0.9rem', borderRadius: '0.5rem', fontSize: '0.9rem' }}
-                />
+                  style={{ width: '100%', padding: '0.65rem 0.85rem', borderRadius: '3px', fontSize: '0.875rem', background: '#FFFFFF' }}
+                >
+                  <option value="PRG-CSE">PRG-CSE — Computer Science &amp; Engg</option>
+                  <option value="PRG-CSM">PRG-CSM — CSE (AI &amp; ML)</option>
+                  <option value="PRG-CSD">PRG-CSD — CSE (Data Science)</option>
+                  <option value="PRG-IT">PRG-IT — Information Technology</option>
+                  <option value="PRG-ECE">PRG-ECE — Electronics &amp; Comm Engg</option>
+                  <option value="PRG-EEE">PRG-EEE — Electrical &amp; Electronics Engg</option>
+                  <option value="PRG-MECH">PRG-MECH — Mechanical Engineering</option>
+                  <option value="PRG-CIVIL">PRG-CIVIL — Civil Engineering</option>
+                  <option value="PRG-CHEM">PRG-CHEM — Chemical Engineering</option>
+                </select>
               </div>
               <div>
-                <label style={{ display: 'block', fontSize: '0.8125rem', fontWeight: 600, color: 'var(--text-secondary)', marginBottom: '0.4rem' }}>Course Code</label>
-                <input
-                  type="text"
-                  required
+                <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-secondary)', marginBottom: '0.35rem', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                  Course Subject
+                </label>
+                <select
                   name="courseCode"
                   value={formData.courseCode}
                   onChange={handleChange}
-                  style={{ width: '100%', padding: '0.7rem 0.9rem', borderRadius: '0.5rem', fontSize: '0.9rem' }}
-                />
+                  style={{ width: '100%', padding: '0.65rem 0.85rem', borderRadius: '3px', fontSize: '0.875rem', background: '#FFFFFF' }}
+                >
+                  <optgroup label="CSE Courses">
+                    <option value="CSE-ML">CSE-ML — Machine Learning</option>
+                    <option value="CSE-CNS">CSE-CNS — Cryptography &amp; Network Security</option>
+                    <option value="CSE-CT">CSE-CT — Cloud Technologies</option>
+                    <option value="CSE-DIP">CSE-DIP — Digital Image Processing</option>
+                    <option value="CSE-NLP">CSE-NLP — Natural Language Processing</option>
+                  </optgroup>
+                  <optgroup label="CSM / CSD / IT Courses">
+                    <option value="CSM-NNDL">CSM-NNDL — Neural Networks &amp; Deep Learning</option>
+                    <option value="CSM-DEVOPS">CSM-DEVOPS — DevOps (Skill Course)</option>
+                    <option value="CSD-BDT">CSD-BDT — Big Data Technologies</option>
+                    <option value="IT-DAA">IT-DAA — Design &amp; Analysis of Algorithms</option>
+                  </optgroup>
+                  <optgroup label="ECE / MECH / CHEM Courses">
+                    <option value="ECE-VLSID">ECE-VLSID — VLSI Design</option>
+                    <option value="MECH-HT">MECH-HT — Heat Transfer</option>
+                    <option value="CHEM-MT2">CHEM-MT2 — Mass Transfer-II</option>
+                  </optgroup>
+                </select>
               </div>
             </div>
 
             <div>
-              <label style={{ display: 'block', fontSize: '0.8125rem', fontWeight: 600, color: 'var(--text-secondary)', marginBottom: '0.4rem' }}>Requested Credential Type</label>
+              <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-secondary)', marginBottom: '0.35rem', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                Requested Credential Type
+              </label>
               <select
                 name="requestedCredentialType"
                 value={formData.requestedCredentialType}
                 onChange={handleChange}
-                style={{ width: '100%', padding: '0.7rem 0.9rem', borderRadius: '0.5rem', fontSize: '0.9rem' }}
+                style={{ width: '100%', padding: '0.65rem 0.85rem', borderRadius: '3px', fontSize: '0.875rem', background: '#FFFFFF' }}
               >
+                <option value="Semester Grade Card (R23)">Semester Grade Card (R23)</option>
+                <option value="B.Tech Degree Credential">B.Tech Degree Credential</option>
+                <option value="Consolidated Grade Transcript">Consolidated Grade Transcript</option>
                 <option value="Course Completion Credential">Course Completion Credential</option>
-                <option value="Degree Credential">Degree Credential</option>
-                <option value="Internship Certificate">Internship Certificate</option>
-                <option value="Skill Certificate">Skill Certificate</option>
-                <option value="Transcript Credential">Transcript Credential</option>
+                <option value="Provisional Certificate">Provisional Certificate</option>
               </select>
             </div>
 
-            <button type="submit" disabled={loading} className="btn btn-primary" style={{ marginTop: '0.5rem', padding: '0.85rem' }}>
-              <FileText size={16} />
+            <button type="submit" disabled={loading} className="btn btn-primary" style={{ marginTop: '0.5rem', padding: '0.75rem' }}>
               {loading ? 'Submitting to Institution...' : 'Submit Credential Request'}
             </button>
           </form>

@@ -1,7 +1,6 @@
 package com.onest.credential.dto;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
@@ -16,24 +15,26 @@ public class CredentialIssuanceRequest {
     @NotBlank(message = "Program Code is required")
     private String programCode;
 
-    @NotBlank(message = "Course Code is required")
-    private String courseCode;
+    private String courseCode; // Optional: for program/semester credentials
 
     @NotBlank(message = "Credential Type is required")
     private String credentialType;
 
-    private String requestId; // optional linked credential request ID
+    private String requestId; // Optional linked credential request ID
 
-    @NotNull(message = "Course Start Date is required")
-    private LocalDate courseStartDate;
-
-    @NotNull(message = "Course End Date is required")
-    private LocalDate courseEndDate;
-
-    @NotNull(message = "Attendance Percent is required")
+    // Parameters derived from student_semester_records
+    private BigDecimal sgpa;
+    private BigDecimal cgpa;
     private BigDecimal attendancePercent;
+    private Integer backlogCount;
+    private String resultStatus;
+    private String semester;
+    private String academicYear;
+    private String examMonthYear;
 
-    @NotNull(message = "Final Score is required")
+    // Optional legacy course dates/score
+    private LocalDate courseStartDate;
+    private LocalDate courseEndDate;
     private BigDecimal finalScore;
 
     public CredentialIssuanceRequest() {}
@@ -86,6 +87,70 @@ public class CredentialIssuanceRequest {
         this.requestId = requestId;
     }
 
+    public BigDecimal getSgpa() {
+        return sgpa;
+    }
+
+    public void setSgpa(BigDecimal sgpa) {
+        this.sgpa = sgpa;
+    }
+
+    public BigDecimal getCgpa() {
+        return cgpa;
+    }
+
+    public void setCgpa(BigDecimal cgpa) {
+        this.cgpa = cgpa;
+    }
+
+    public BigDecimal getAttendancePercent() {
+        return attendancePercent;
+    }
+
+    public void setAttendancePercent(BigDecimal attendancePercent) {
+        this.attendancePercent = attendancePercent;
+    }
+
+    public Integer getBacklogCount() {
+        return backlogCount;
+    }
+
+    public void setBacklogCount(Integer backlogCount) {
+        this.backlogCount = backlogCount;
+    }
+
+    public String getResultStatus() {
+        return resultStatus;
+    }
+
+    public void setResultStatus(String resultStatus) {
+        this.resultStatus = resultStatus;
+    }
+
+    public String getSemester() {
+        return semester;
+    }
+
+    public void setSemester(String semester) {
+        this.semester = semester;
+    }
+
+    public String getAcademicYear() {
+        return academicYear;
+    }
+
+    public void setAcademicYear(String academicYear) {
+        this.academicYear = academicYear;
+    }
+
+    public String getExamMonthYear() {
+        return examMonthYear;
+    }
+
+    public void setExamMonthYear(String examMonthYear) {
+        this.examMonthYear = examMonthYear;
+    }
+
     public LocalDate getCourseStartDate() {
         return courseStartDate;
     }
@@ -100,14 +165,6 @@ public class CredentialIssuanceRequest {
 
     public void setCourseEndDate(LocalDate courseEndDate) {
         this.courseEndDate = courseEndDate;
-    }
-
-    public BigDecimal getAttendancePercent() {
-        return attendancePercent;
-    }
-
-    public void setAttendancePercent(BigDecimal attendancePercent) {
-        this.attendancePercent = attendancePercent;
     }
 
     public BigDecimal getFinalScore() {
